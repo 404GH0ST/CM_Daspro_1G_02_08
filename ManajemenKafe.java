@@ -3,40 +3,54 @@ import java.util.Scanner;
 public class ManajemenKafe {
     static Scanner sc = new Scanner(System.in);
 
-    static void masukkanDataPelanggan(String[] namaPelanggan, int[] nomorMejaPelanggan, int counterPelanggan){
-                System.out.print("Masukkan nama pelanggan: ");
-                namaPelanggan[counterPelanggan] = sc.nextLine();
-                System.out.print("Masukkan nomor meja: ");
-                nomorMejaPelanggan[counterPelanggan] = sc.nextInt();
+    static void masukkanDataPelanggan(String[] namaPelanggan, int[] nomorMejaPelanggan, int counterPelanggan) {
+        System.out.print("Masukkan nama pelanggan: ");
+        namaPelanggan[counterPelanggan] = sc.nextLine();
+        System.out.print("Masukkan nomor meja: ");
+        nomorMejaPelanggan[counterPelanggan] = sc.nextInt();
     }
 
-    static int masukkanPesanan(int[][] nomorMenuPelanggan, int[][] jumlahItemPelanggan, String[] daftarMenu, int counterPelanggan){
-                int pilihanMenu;
-                int counterMenuTemp = 0;
-                while (true) {
-                    System.out.print("Pilih menu (masukkan nomor menu, atau 0 untuk selesai): ");
-                    pilihanMenu = sc.nextInt();
+    static int masukkanPesanan(int[][] nomorMenuPelanggan, int[][] jumlahItemPelanggan, String[] daftarMenu,
+            int counterPelanggan) {
+        int pilihanMenu;
+        int counterMenu = 0;
+        int jumlahItem = 0;
+        while (true) {
+            System.out.print("Pilih menu (masukkan nomor menu, atau 0 untuk selesai): ");
+            pilihanMenu = sc.nextInt();
 
-                    if (pilihanMenu != 0) {
-                        nomorMenuPelanggan[counterPelanggan][counterMenuTemp] = pilihanMenu;
-                        System.out.print("Masukkan jumlah item untuk " + daftarMenu[pilihanMenu - 1] + ": ");
-                        jumlahItemPelanggan[counterPelanggan][counterMenuTemp] = sc.nextInt();
-                        System.out.println();
-                        counterMenuTemp++;
+            if (pilihanMenu < 0 || pilihanMenu > daftarMenu.length) {
+                System.out.println("Nomor menu tidak valid.");
+            } else if (pilihanMenu != 0) {
+                nomorMenuPelanggan[counterPelanggan][counterMenu] = pilihanMenu;
+                while (true) {
+                    System.out.print("Masukkan jumlah item untuk " + daftarMenu[pilihanMenu - 1] + ": ");
+                    jumlahItem = sc.nextInt();
+
+                    if (jumlahItem <= 0) {
+                        System.out.println("Jumlah item hanya menerima nilai lebih dari 0");
                     } else {
+                        jumlahItemPelanggan[counterPelanggan][counterMenu] = jumlahItem;
                         break;
                     }
                 }
-                return counterMenuTemp;
+                System.out.println();
+                counterMenu++;
+            } else {
+                break;
+            }
+        }
+        return counterMenu;
     }
 
-    static void hitungHargaTotal(int[][] nomorMenuPelanggan, int[][] jumlahItemPelanggan, int[]hargaTotalPelanggan, int[] hargaMenu, int[] counterMenuPelanggan, int counterMenu, int counterPelanggan){
-                for (int i = 0; i < counterMenu; i++) {
-                    int nomorMenu = nomorMenuPelanggan[counterPelanggan][i] - 1;
-                    hargaTotalPelanggan[counterPelanggan] += hargaMenu[nomorMenu]
-                            * jumlahItemPelanggan[counterPelanggan][i];
-                }
-                counterMenuPelanggan[counterPelanggan] = counterMenu;
+    static void hitungHargaTotal(int[][] nomorMenuPelanggan, int[][] jumlahItemPelanggan, int[] hargaTotalPelanggan,
+            int[] hargaMenu, int[] counterMenuPelanggan, int counterMenu, int counterPelanggan) {
+        for (int i = 0; i < counterMenu; i++) {
+            int nomorMenu = nomorMenuPelanggan[counterPelanggan][i] - 1;
+            hargaTotalPelanggan[counterPelanggan] += hargaMenu[nomorMenu]
+                    * jumlahItemPelanggan[counterPelanggan][i];
+        }
+        counterMenuPelanggan[counterPelanggan] = counterMenu;
     }
 
     public static void main(String[] args) {
@@ -74,8 +88,10 @@ public class ManajemenKafe {
                 System.out.println("4. Mie Goreng - Rp 18000");
                 System.out.println();
 
-                int counterMenuTemp = masukkanPesanan(nomorMenuPelanggan, jumlahItemPelanggan, daftarMenu, counterPelanggan);
-                hitungHargaTotal(nomorMenuPelanggan, jumlahItemPelanggan, hargaTotalPelanggan, hargaMenu, counterMenuPelanggan, counterMenuTemp, counterPelanggan);
+                int counterMenuTemp = masukkanPesanan(nomorMenuPelanggan, jumlahItemPelanggan, daftarMenu,
+                        counterPelanggan);
+                hitungHargaTotal(nomorMenuPelanggan, jumlahItemPelanggan, hargaTotalPelanggan, hargaMenu,
+                        counterMenuPelanggan, counterMenuTemp, counterPelanggan);
 
                 System.out.println();
                 System.out.println("Pesanan berhasil ditambahkan.");
@@ -85,7 +101,6 @@ public class ManajemenKafe {
                 counterPelanggan++;
             } else if (menu == 2) {
                 // TODO
-
             } else if (menu == 3) {
                 break;
             } else {
