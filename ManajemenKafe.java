@@ -75,8 +75,32 @@ public class ManajemenKafe {
         System.out.println();
     }
 
-    static void cetakSeluruhPesanan() {
-        // TODO
+    static void cetakSeluruhPesanan(int[][] nomorMenuPelanggan, int[][] jumlahItemPelanggan, int[] hargaMenu,
+            int[] nomorMejaPelanggan, int[] counterMenuPelanggan, int[] hargaTotalPelanggan, String[] daftarMenu,
+            String[] namaPelanggan, int counterPelanggan) {
+
+        if (counterPelanggan == 0) {
+            System.out.println("Belum ada pesanan, mohon tambahkan pesanan terlebih dahulu");
+            System.out.println();
+            return;
+        }
+
+        System.out.println("===== DAFTAR PESANAN =====");
+        for (int i = 0; i < counterPelanggan; i++) {
+            System.out.println("Nama Pelanggan: " + namaPelanggan[i]);
+            System.out.println("Nomor Meja: " + nomorMejaPelanggan[i]);
+            System.out.println("Detail Pesanan:");
+            for (int j = 0; j < counterMenuPelanggan[i]; j++) {
+                int nomorMenuTemp = nomorMenuPelanggan[i][j] - 1;
+                int jumlahItemTemp = jumlahItemPelanggan[i][j];
+                String menuTemp = daftarMenu[nomorMenuTemp];
+                int hargaTemp = hargaMenu[nomorMenuTemp] * jumlahItemTemp;
+                System.out.println(" - " + menuTemp + " x " + jumlahItemTemp + " = Rp " + hargaTemp);
+            }
+            System.out.println("Total Harga Pesanan: Rp " + hargaTotalPelanggan[i]);
+            System.out.println("--------------------------");
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -99,10 +123,12 @@ public class ManajemenKafe {
 
             System.out.println();
             if (menu == 1) {
-                tambahPesanan(nomorMenuPelanggan, jumlahItemPelanggan, hargaTotalPelanggan, nomorMejaPelanggan, counterMenuPelanggan, hargaMenu, namaPelanggan, daftarMenu, counterPelanggan);
+                tambahPesanan(nomorMenuPelanggan, jumlahItemPelanggan, hargaTotalPelanggan, nomorMejaPelanggan,
+                        counterMenuPelanggan, hargaMenu, namaPelanggan, daftarMenu, counterPelanggan);
                 counterPelanggan++;
             } else if (menu == 2) {
-                // TODO
+                cetakSeluruhPesanan(nomorMenuPelanggan, jumlahItemPelanggan, hargaMenu, nomorMejaPelanggan,
+                        counterMenuPelanggan, hargaTotalPelanggan, daftarMenu, namaPelanggan, counterPelanggan);
             } else if (menu == 3) {
                 break;
             } else {
